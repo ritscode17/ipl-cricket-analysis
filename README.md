@@ -7,28 +7,17 @@
 ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?logo=jupyter&logoColor=white)
 ![Plotly](https://img.shields.io/badge/Plotly-5.17-3F4F75?logo=plotly&logoColor=white)
 
-End-to-end analysis of 12 IPL seasons (2008-2019) covering 756 matches and 179,077 ball-by-ball deliveries. The project builds a full analytics pipeline: raw CSV ingestion -> SQLite -> cleaned datasets -> EDA dashboard -> SQL and statistical analysis -> win prediction model.
+Analysis of 12 IPL seasons (2008–2019) — 756 matches, 179,077 ball-by-ball deliveries. The pipeline goes from raw CSVs into SQLite, through cleaning and feature engineering, then branches into EDA, SQL queries, hypothesis tests, and a mid-match win predictor. The notebook covers everything in one walkthrough if you'd rather skip the scripts.
 
 ---
 
-## Portfolio Summary
+## Questions
 
-- Built an end-to-end pipeline from raw IPL CSVs to SQLite, cleaned datasets, and a multi-panel dashboard.
-- Answered five core performance questions on teams, players, toss decisions, and innings scoring dynamics.
-- Used SQL window functions, HAVING filters, and joins to surface season and player insights.
-- Applied inferential statistics: chi-square, bootstrap CI, and Mann-Whitney U tests.
-- Trained a logistic regression model to predict win probability at the 10-over mark of the chase.
-- Delivered reproducible scripts, a notebook walkthrough, and a portfolio-ready dashboard image.
-
----
-
-## Objectives
-
-1. Which teams dominated across the tournament's history?
+1. Which teams dominated across the 12 seasons?
 2. Who are the standout individual performers in batting and bowling?
-3. Does winning the toss materially impact match outcome?
-4. How does run scoring vary by match phase (powerplay, middle, death)?
-5. Are first-innings and second-innings scores statistically different?
+3. Does winning the toss materially affect the result?
+4. How does run scoring shift between powerplay, middle overs, and death overs?
+5. Are first-innings and second-innings totals statistically different?
 
 ---
 
@@ -36,13 +25,13 @@ End-to-end analysis of 12 IPL seasons (2008-2019) covering 756 matches and 179,0
 
 | Insight | Result |
 | --- | --- |
-| Most successful team | Mumbai Indians - 109 wins across 12 seasons |
-| Top run scorer (career) | Virat Kohli - 5,434 runs |
-| Top wicket taker (career) | Lasith Malinga - 188 wickets |
-| Toss advantage | Teams that win the toss win about 51% of matches (near chance) |
-| Death overs scoring | Death overs average about 20% more runs per over than middle overs |
-| 1st vs 2nd innings scoring | Mann-Whitney U test shows a significant difference in distributions |
-| Win prediction | Logistic regression at ball 60 of the chase; run `python scripts/win_prediction.py` for metrics |
+| Most successful team | Mumbai Indians — 109 wins across 12 seasons |
+| Top run scorer (career) | Virat Kohli — 5,434 runs |
+| Top wicket taker (career) | Lasith Malinga — 188 wickets |
+| Toss advantage | Toss winners win ~51% of matches — basically coin flip |
+| Death overs scoring | Death overs average ~20% more runs per over than middle overs |
+| 1st vs 2nd innings | Mann-Whitney U test shows a significant difference in score distributions |
+| Win prediction | Logistic regression at ball 60 of the chase — run `python scripts/win_prediction.py` |
 
 ---
 
@@ -50,12 +39,7 @@ End-to-end analysis of 12 IPL seasons (2008-2019) covering 756 matches and 179,0
 
 ![IPL Analysis Dashboard](assets/ipl_dashboard.png)
 
-The dashboard captures four core dimensions of IPL performance in a single view:
-
-- Phase-by-phase run scoring (powerplay / middle / death)
-- Top 10 career run scorers
-- Toss win percentage by decision type (bat vs field) with a 50% baseline
-- Dismissal type distribution across seasons
+Four panels: phase-by-phase run rates, top 10 career run scorers, toss win % by decision type, and dismissal type breakdown across seasons.
 
 ---
 
@@ -63,14 +47,14 @@ The dashboard captures four core dimensions of IPL performance in a single view:
 
 | Property | Value |
 | --- | --- |
-| Source | [Kaggle - IPL Complete Dataset (2008-2019)](https://www.kaggle.com/datasets/patrickb1912/ipl-complete-dataset-20082020) |
-| Seasons | IPL 2008 to IPL 2019 (12 seasons) |
+| Source | [Kaggle — IPL Complete Dataset (2008-2019)](https://www.kaggle.com/datasets/patrickb1912/ipl-complete-dataset-20082020) |
+| Seasons | 2008–2019 (12 seasons) |
 | Matches | 756 |
 | Ball-by-ball deliveries | 179,077 |
 | Tables | `matches`, `deliveries` |
 
-`matches.csv` - one row per game: date, teams, venue, toss, winner, win margin
-`deliveries.csv` - one row per delivery: batsman, bowler, runs, dismissal type
+`matches.csv` — one row per game: date, teams, venue, toss, winner, win margin  
+`deliveries.csv` — one row per delivery: batsman, bowler, runs, dismissal type
 
 ---
 
@@ -79,24 +63,24 @@ The dashboard captures four core dimensions of IPL performance in a single view:
 ```
 ipl-analysis/
 ├── assets/
-│   └── ipl_dashboard.png        # Saved dashboard output
+│   └── ipl_dashboard.png
 ├── data/
 │   ├── raw/
-│   │   ├── matches.csv          # Original match data
-│   │   └── deliveries.csv       # Ball-by-ball deliveries
+│   │   ├── matches.csv
+│   │   └── deliveries.csv
 │   ├── processed/
-│   │   ├── matches_clean.csv    # Cleaned + feature-engineered matches
-│   │   └── deliveries_clean.csv # Cleaned + phase-tagged deliveries
-│   └── ipl.db                   # SQLite database for SQL analysis
+│   │   ├── matches_clean.csv
+│   │   └── deliveries_clean.csv
+│   └── ipl.db
 ├── notebooks/
-│   └── 01_ipl_analysis.ipynb    # Exploratory analysis with visualisations
+│   └── 01_ipl_analysis.ipynb
 ├── scripts/
-│   ├── load_data.py             # Ingest CSVs -> SQLite
-│   ├── clean_data.py            # Clean, standardise, feature-engineer
-│   ├── eda_analysis.py          # EDA + 4-panel dashboard
-│   ├── run_sql_queries.py       # SQL queries via sqlite3
-│   ├── statistical_analysis.py  # Hypothesis tests (chi-square, bootstrap, Mann-Whitney)
-│   └── win_prediction.py        # Logistic Regression win predictor
+│   ├── load_data.py
+│   ├── clean_data.py
+│   ├── eda_analysis.py
+│   ├── run_sql_queries.py
+│   ├── statistical_analysis.py
+│   └── win_prediction.py
 └── requirements.txt
 ```
 
@@ -116,87 +100,66 @@ flowchart LR
 
 ---
 
-## Techniques Used
+## Techniques
 
 ### Data Engineering
-
-- Standardised franchise names across seasons (example: Delhi Daredevils -> Delhi Capitals)
+- Standardised franchise names across seasons (e.g. Delhi Daredevils → Delhi Capitals)
 - Removed super overs to avoid scoring distortion
-- Classified each delivery into powerplay (1-6), middle (7-15), death (16-20)
+- Tagged each delivery as powerplay (1–6), middle (7–15), or death (16–20)
 - Flagged legal deliveries for accurate strike rate and economy calculations
 
-### SQL Analysis (`run_sql_queries.py`)
-
+### SQL (`run_sql_queries.py`)
 - Window functions (`SUM() OVER (PARTITION BY year)`) for season-level win share
-- `HAVING` clauses for minimum match thresholds
+- `HAVING` filters for minimum match thresholds
 - Toss-winner vs match-winner join analysis
 
-### Statistical Analysis (`statistical_analysis.py`)
+### Statistical Tests (`statistical_analysis.py`)
+- Chi-square: toss decision vs match outcome independence
+- Bootstrap CI (10,000 iterations): mean innings score
+- Mann-Whitney U: first-innings vs second-innings total distributions
 
-- Chi-square test for toss decision vs match outcome independence
-- Bootstrap confidence interval (10,000 iterations) for mean innings score
-- Mann-Whitney U test comparing first-innings vs second-innings totals
+### Win Predictor (`win_prediction.py`)
 
-### Win Prediction (`win_prediction.py`)
-
-Mid-match prediction using the state at ball 60 (10 overs into the second innings):
+Snapshot taken at ball 60 (10 overs into the chase):
 
 | Feature | Description |
 | --- | --- |
 | `runs_so_far` | Runs scored by ball 60 |
 | `wickets_lost` | Wickets fallen by ball 60 |
-| `runs_required` | Runs still needed to win |
-| `balls_remaining` | Balls left in the innings |
+| `runs_required` | Runs still needed |
+| `balls_remaining` | Balls left |
 | `rrr` | Required run rate |
 | `target` | First-innings total |
 
-Model: `LogisticRegression` with `StandardScaler` and an 80/20 train-test split.
+`LogisticRegression` with `StandardScaler`, 80/20 split.
 
 ---
 
 ## Setup
 
 ```bash
-# 1. Clone the repo
 git clone https://github.com/ritscode17/ipl-cricket-analysis.git
 cd ipl-cricket-analysis
 
-# 2. Create and activate a virtual environment
 python -m venv venv
-source venv/bin/activate        # macOS/Linux
-venv\Scripts\activate           # Windows
+source venv/bin/activate   # macOS/Linux
+venv\Scripts\activate      # Windows
 
-# 3. Install dependencies
 pip install -r requirements.txt
 ```
 
----
-
 ## How to Run
 
-Run scripts in order from the project root:
-
 ```bash
-# Step 1 - Load raw data into SQLite
-python scripts/load_data.py
-
-# Step 2 - Clean and feature-engineer datasets
-python scripts/clean_data.py
-
-# Step 3 - EDA dashboard (saves to assets/ipl_dashboard.png)
-python scripts/eda_analysis.py
-
-# Step 4 - SQL analysis
-python scripts/run_sql_queries.py
-
-# Step 5 - Hypothesis tests
-python scripts/statistical_analysis.py
-
-# Step 6 - Win prediction model
-python scripts/win_prediction.py
+python scripts/load_data.py             # Step 1 — load CSVs into SQLite
+python scripts/clean_data.py            # Step 2 — clean + feature engineer
+python scripts/eda_analysis.py          # Step 3 — EDA dashboard
+python scripts/run_sql_queries.py       # Step 4 — SQL analysis
+python scripts/statistical_analysis.py  # Step 5 — hypothesis tests
+python scripts/win_prediction.py        # Step 6 — win predictor
 ```
 
-Or open the notebook for a guided walkthrough:
+Or open the notebook:
 
 ```bash
 jupyter notebook notebooks/01_ipl_analysis.ipynb
@@ -209,38 +172,30 @@ jupyter notebook notebooks/01_ipl_analysis.ipynb
 | Tool | Purpose |
 | --- | --- |
 | Python 3.11 | Core language |
-| Pandas | Data wrangling and aggregation |
-| NumPy | Numerical operations and bootstrap sampling |
-| Matplotlib / Seaborn | Static visualisations and dashboard |
+| Pandas | Data wrangling |
+| NumPy | Numerical ops + bootstrap sampling |
+| Matplotlib / Seaborn | Static charts and dashboard |
 | Plotly | Interactive charts |
-| SciPy | Statistical hypothesis tests |
-| Scikit-learn | Feature scaling and logistic regression |
-| SQLite / SQLAlchemy | Relational storage and SQL querying |
-| Jupyter | Exploratory notebook |
-
----
-
-## Outputs
-
-- `assets/ipl_dashboard.png` - dashboard for portfolio use
-- `data/processed/` - cleaned and feature-engineered datasets
-- `data/ipl.db` - SQLite database built from raw CSVs
+| SciPy | Hypothesis tests |
+| Scikit-learn | Feature scaling + logistic regression |
+| SQLite / SQLAlchemy | Relational storage + SQL querying |
+| Jupyter | Notebook walkthrough |
 
 ---
 
 ## Limitations
 
-- No player-level context features (injuries, form, team changes) are included.
-- The win predictor is trained on a fixed snapshot (ball 60) rather than a full ball-by-ball model.
-- Weather and pitch conditions are not available in the dataset.
+- No player-level context (injuries, form, mid-season trades).
+- Win predictor uses a fixed ball-60 snapshot, not a ball-by-ball curve.
+- Weather and pitch data not available in the dataset.
 
 ---
 
 ## Future Work
 
-- Add ball-by-ball live win probability curves.
-- Compare classical ML models with gradient boosting or calibrated probabilities.
-- Enrich the dataset with venue or season-level features.
+- Ball-by-ball live win probability curves.
+- Compare logistic regression against gradient boosting.
+- Add venue or season-level features.
 
 ---
 
@@ -252,4 +207,4 @@ jupyter notebook notebooks/01_ipl_analysis.ipynb
 
 ## License
 
-This project is licensed under the MIT License. See `LICENSE` for details.
+MIT
